@@ -22,6 +22,6 @@ config.COMMANDS = config.GENERIC_COMMANDS.concat(config.CHAN_SAFE_COMMANDS).conc
 config.BOARD_COMMANDS = config.CHAN_SAFE_COMMANDS.concat(config.CHAN_UNSAFE_COMMANDS);
 
 config.VALID_QUERIES = config.BOARD_COMMANDS.map(function(cmd) {return cmd.replace("/","");});
-config.QUERY_RESULT_COUNT = 5;
+config.QUERY_RESULT_COUNT = 20;
 
 module.exports = config;
