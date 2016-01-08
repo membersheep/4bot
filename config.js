@@ -2,7 +2,7 @@ var config = {};
 
 config.SERVER_PORT = process.env.PORT || 3000;
 
-config.BOT_NAME = "4bot";
+config.BOT_NAME = process.env.TELEGRAM_USERNAME;
 config.TOKEN = process.env.TELEGRAM_TOKEN;
 
 config.TELEGRAM_BASE_URL = "https://api.telegram.org/bot";
