@@ -1,0 +1,29 @@
+{
+  "name": "4bot",
+  "version": "1.0.0",
+  "description": "A telegram bot to serve random images from 4chan image boards.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node spec/",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/membersheep/4bot.git"
+  },
+  "author": "membersheep",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/membersheep/4bot/issues"
+  },
+  "homepage": "https://github.com/membersheep/4bot#readme",
+  "dependencies": {
+    "body-parser": "1.14.2",
+    "express": "^4.13.3",
+    "proxyquire": "^1.7.3",
+    "request": "2.67.0"
+  },
+  "engines": {
+    "node": "4.1.0"
+  }
+}
