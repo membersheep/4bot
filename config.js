@@ -3,7 +3,7 @@ var config = {};
 config.SERVER_PORT = process.env.PORT || 3000;
 
 config.BOT_NAME = "4bot";
-config.TOKEN = "token";
+config.TOKEN = process.env.TELEGRAM_TOKEN;
 
 config.TELEGRAM_BASE_URL = "https://api.telegram.org/bot";
 config.TELEGRAM_SETUP_WEBHOOK = "/setWebhook?url=:url";
