@@ -8,6 +8,7 @@ var bot = proxyquire('../modules/bot', {
 });
 
 var telegramMessage = require('./data/telegramRequest').message;
+var telegramStartMessage = require('./data/telegramStartMessage').message;
 var telegramQuery = require('./data/telegramInlineQuery').inline_query;
 
 describe('Bot: when it reads a message', function(){
@@ -18,6 +19,13 @@ describe('Bot: when it reads a message', function(){
       expect(chanStub.called()).toBe(true);
       expect(telegramStub.chatId()).toEqual(telegramMessage.chat.id);
       expect(telegramStub.localPath()).toEqual(chanStub.path());
+    });
+  });
+  describe('that is a generic command name', function(){
+    it('posts a message to the same chat', function() {
+      bot.readMessage(telegramStartMessage);
+
+      expect(telegramStub.chatId()).toEqual(telegramStartMessage.chat.id);
     });
   });
 });

@@ -55,6 +55,23 @@ bot.executeBoardCommand = function (message) {
 };
 
 bot.executeGenericCommand = function (message) {
+  if (message.text == "/start") {
+    telegramService.postMessage(config.TOKEN, message.chat.id, config.START_MESSAGE,function(err, res, body) {
+      if (err) {
+        return console.log(err);
+      } else {
+        return console.log('start message posted!');
+      }
+    });
+  } else if (message.text == "/help") {
+    telegramService.postMessage(config.TOKEN, message.chat.id, config.HELP_MESSAGE, function(err, res, body) {
+      if (err) {
+        return console.log(err);
+      } else {
+        return console.log('help message posted!');
+      }
+    });
+  }
   return console.log('command ' + message.text);
 };
 

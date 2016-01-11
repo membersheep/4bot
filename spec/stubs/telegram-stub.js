@@ -1,4 +1,5 @@
 var localPath = '';
+var postedMessage = '';
 var chatId = '';
 
 exports.postImage =  function(token, imageLocalPath, cId) {
@@ -11,10 +12,19 @@ exports.postDocument =  function(token, imageLocalPath, cId) {
   chatId = cId;
 };
 
+exports.postMessage =  function(token, cId, message) {
+  postedMessage = message;
+  chatId = cId;
+};
+
 exports.localPath = function() {
   return localPath;
 };
 
 exports.chatId = function() {
   return chatId;
+};
+
+exports.postedMessage = function() {
+  return postedMessage;
 };
