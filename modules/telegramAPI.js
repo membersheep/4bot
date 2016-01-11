@@ -17,6 +17,23 @@ telegramAPI.setupWebhook = function(token, url, callback){
   });
 };
 
+telegramAPI.postMessage = function(token, chatId, message, callback) {
+  var requestUrl = config.TELEGRAM_BASE_URL + token + config.TELEGRAM_POST_MESSAGE;
+  var formData = {
+    chat_id: chatId,
+    text: message
+  };
+  request.post({url:requestUrl, formData: formData}, function(err, res, body) {
+    if (err) {
+      return callback(err);
+    } else if (res.statusCode == 200) {
+      return callback(null, res, body);
+    } else {
+      return callback(new Error("Unable to post message. Code " + res.statusCode));
+    }
+  });
+};
+
 telegramAPI.postImage = function(token, imagePath, chatId, callback) {
   fs.access(imagePath, fs.F_OK, function(err) {
     if (err) {
@@ -70,7 +87,7 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     var fileName = url.split('/').pop().split('.')[0];
     var thumbnailUrl = url.replace('.' + fileExtension, 's.jpg');
     var result = {};
-    // For now we send everything as article due to telegram 
+    // For now we send everything as article due to telegram
     result.type = 'article';
     result.id = fileName;
     result.title = fileName;

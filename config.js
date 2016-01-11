@@ -9,6 +9,7 @@ config.HELP_MESSAGE = "";
 
 config.TELEGRAM_BASE_URL = "https://api.telegram.org/bot";
 config.TELEGRAM_SETUP_WEBHOOK = "/setWebhook?url=:url";
+config.TELEGRAM_POST_MESSAGE = "/sendMessage";
 config.TELEGRAM_POST_IMAGE = "/sendPhoto";
 config.TELEGRAM_POST_VIDEO = "/sendVideo";
 config.TELEGRAM_POST_DOCUMENT = "/sendDocument";
