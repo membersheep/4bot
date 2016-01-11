@@ -4,8 +4,8 @@ config.SERVER_PORT = process.env.PORT || 3000;
 
 config.BOT_NAME = process.env.TELEGRAM_USERNAME;
 config.TOKEN = process.env.TELEGRAM_TOKEN;
-config.START_MESSAGE = "";
-config.HELP_MESSAGE = "";
+config.START_MESSAGE = "Start message";
+config.HELP_MESSAGE = "Help message";
 
 config.TELEGRAM_BASE_URL = "https://api.telegram.org/bot";
 config.TELEGRAM_SETUP_WEBHOOK = "/setWebhook?url=:url";
