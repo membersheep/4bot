@@ -4,8 +4,8 @@ config.SERVER_PORT = process.env.PORT || 3000;
 
 config.BOT_NAME = process.env.TELEGRAM_USERNAME;
 config.TOKEN = process.env.TELEGRAM_TOKEN;
-config.START_MESSAGE = "Start message";
-config.HELP_MESSAGE = "Help message";
+config.START_MESSAGE = "Hi! this is 4bot, a telegram bot to serve random images from 4chan image boards.\nThe bot is currently hosted on a freeware lightweight server, hence it's \npossible for you to experience poor performances in image and video posting.\nIf you want better performances you can deploy your own copy of the bot in your\nsuper fast server, or you can modify it to optimize it!\nYou can find the source code and a brief guide in the github repository:\nhttps://github.com/membersheep/4bot\nTo learn how to use the bot, execute the /help command.";
+config.HELP_MESSAGE = "@botfourbot serves random images from 4chan image boards.\nIn the commands list you can find all the available commands. Every command\ncorresponds to a 4chan's board. by executing a command, the bot will post a\nrandom image from the correspondent board (try /mu ).\nYou can also interact with 4bot via inline queries: type the bot username in a\nchat and write a board's name (without the /) to query that board for a list\nof possible contents to post. You can open the content before posting it by\nclicking on the thumbnail.\nEnjoy!";
 
 config.TELEGRAM_BASE_URL = "https://api.telegram.org/bot";
 config.TELEGRAM_SETUP_WEBHOOK = "/setWebhook?url=:url";
