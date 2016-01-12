@@ -68,6 +68,11 @@ telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
         document: fs.createReadStream(documentPath)
       };
       request.post({url:requestUrl, formData: formData}, function(err, res, body) {
+        fs.unlink(documentPath, function(error) {
+          if (error)
+            throw error;
+          console.log('file deleted.');
+        });
         if (err) {
           return callback(err);
         } else if (res.statusCode == 200) {
