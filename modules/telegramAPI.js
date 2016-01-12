@@ -45,6 +45,11 @@ telegramAPI.postImage = function(token, imagePath, chatId, callback) {
         photo: fs.createReadStream(imagePath)
       };
       request.post({url:requestUrl, formData: formData}, function(err, res, body) {
+        fs.unlink(imagePath, function(error) {
+          if (error)
+            throw error;
+          console.log(imagePath + 'deleted.');
+        });
         if (err) {
           return callback(err);
         } else if (res.statusCode == 200) {
@@ -71,7 +76,7 @@ telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
         fs.unlink(documentPath, function(error) {
           if (error)
             throw error;
-          console.log('file deleted.');
+          console.log(documentPath + 'deleted.');
         });
         if (err) {
           return callback(err);
