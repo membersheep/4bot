@@ -13,7 +13,7 @@ bot.readMessage = function(message) {
       bot.executeCommand(message);
     } else {
       var response = message.text + ' is not a command. Read /help to learn how to use it.';
-      telegramService.postMessage(config.TOKEN, message.chat.id, config.START_MESSAGE,function(err, res, body) {
+      telegramService.postMessage(config.TOKEN, message.chat.id, response, function(err, res, body) {
         if (err) {
           return console.log(err);
         } else {
