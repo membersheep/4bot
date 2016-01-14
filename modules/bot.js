@@ -12,7 +12,14 @@ bot.readMessage = function(message) {
     if (bot.isMessageCommand(message)) {
       bot.executeCommand(message);
     } else {
-      console.log('message ' + message.text + ' is not a command.');
+      var response = message.text + ' is not a command. Read /help to learn how to use it.';
+      telegramService.postMessage(config.TOKEN, message.chat.id, config.START_MESSAGE,function(err, res, body) {
+        if (err) {
+          return console.log(err);
+        } else {
+          return console.log('start message posted!');
+        }
+      });
     }
   } else {
     console.log('message ' + message.text + ' is old, dropped.');
