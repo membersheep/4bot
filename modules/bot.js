@@ -12,12 +12,11 @@ bot.readMessage = function(message) {
     if (bot.isMessageCommand(message)) {
       bot.executeCommand(message);
     } else {
-      var response = message.text + ' is not a command. Read /help to learn how to use it.';
+      console.log(message);
+      var response = message.text + ' is not a command. Read /help to learn how to use this bot.';
       telegramService.postMessage(config.TOKEN, message.chat.id, response, function(err, res, body) {
         if (err) {
           return console.log(err);
-        } else {
-          return console.log('start message posted!');
         }
       });
     }
