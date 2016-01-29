@@ -1,8 +1,9 @@
 var bot = require('../modules/bot.js');
+var winston = require('winston');
 
 module.exports = function(req, res) {
   if (!req.hasOwnProperty('body')) {
-    console.log('ERROR: body is missing form request.');
+    winston.error('request body is missing.');
     return res.send();
   }
   var body = req.body;

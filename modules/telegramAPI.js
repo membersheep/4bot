@@ -48,7 +48,6 @@ telegramAPI.postImage = function(token, imagePath, chatId, callback) {
         fs.unlink(imagePath, function(error) {
           if (error)
             throw error;
-          console.log(imagePath + ' deleted.');
         });
         if (err) {
           return callback(err);
@@ -76,7 +75,6 @@ telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
         fs.unlink(documentPath, function(error) {
           if (error)
             throw error;
-          console.log(documentPath + ' deleted.');
         });
         if (err) {
           return callback(err);
@@ -106,7 +104,6 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     result.thumb_url = thumbnailUrl;
     return result;
   });
-  console.log(results);
   request.post(requestUrl, {form:{inline_query_id:queryId, cache_time:10, results: JSON.stringify(results)}}, function(err, res, body) {
     if (err) {
       return callback(err);

@@ -21,7 +21,8 @@
     "body-parser": "1.14.2",
     "express": "^4.13.3",
     "proxyquire": "^1.7.3",
-    "request": "2.67.0"
+    "request": "2.67.0",
+    "winston": "^2.1.1"
   },
   "engines": {
     "node": "4.1.0"

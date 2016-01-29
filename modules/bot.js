@@ -1,6 +1,7 @@
 var config = require('../config');
 var chanService = require('./4ChanService');
 var telegramService = require('./telegramAPI');
+var winston = require('winston');
 
 var bot = {};
 
@@ -16,13 +17,11 @@ bot.readMessage = function(message) {
         var response = message.text + ' is not a command. Read /help to learn how to use this bot.';
         telegramService.postMessage(config.TOKEN, message.chat.id, response, function(err, res, body) {
           if (err) {
-            return console.log(err);
+            return winston.error(err);
           }
         });
       }
     }
-  } else {
-    console.log('message ' + message.text + ' is old, dropped.');
   }
 };
 
@@ -37,23 +36,23 @@ bot.executeCommand = function(message) {
 bot.executeBoardCommand = function (message) {
   chanService.getRandomImage(message.text, function(err, localPath){
     if (err) {
-      return console.log(err);
+      return winston.error(err);
     } else {
       var extension = localPath.split('.').pop();
       if (extension == 'png' || extension == 'jpg') {
         telegramService.postImage(config.TOKEN, localPath, message.chat.id, function(err, res, body) {
           if (err) {
-            return console.log(err);
+            return winston.error(err);
           } else {
-            return console.log('image posted!');
+            return winston.info('image posted by ' + message.from + 'from ' + message);
           }
         });
       } else {
         telegramService.postDocument(config.TOKEN, localPath, message.chat.id, function(err, res, body) {
           if (err) {
-            return console.log(err);
+            return winston.error(err);
           } else {
-            return console.log('document posted!');
+            return winston.info('document posted by' + message.from + 'from ' + message);
           }
         });
       }
@@ -65,21 +64,20 @@ bot.executeGenericCommand = function (message) {
   if (message.text == "/start") {
     telegramService.postMessage(config.TOKEN, message.chat.id, config.START_MESSAGE,function(err, res, body) {
       if (err) {
-        return console.log(err);
+        return winston.error(err);
       } else {
-        return console.log('start message posted!');
+        return winston.info('start message posted by ' + message.from);
       }
     });
   } else if (message.text == "/help") {
     telegramService.postMessage(config.TOKEN, message.chat.id, config.HELP_MESSAGE, function(err, res, body) {
       if (err) {
-        return console.log(err);
+        return winston.error(err);
       } else {
-        return console.log('help message posted!');
+        return winston.info('help message posted by ' + message.from);
       }
     });
   }
-  return console.log('command ' + message.text);
 };
 
 bot.isMessageCommand = function(message) {
@@ -111,11 +109,10 @@ bot.isMessageNew = function(message) {
 // INLINE QUERIES
 
 bot.readQuery = function(inline_query) {
-  console.log('reading query...');
   if (bot.isQueryValid(inline_query)) {
     bot.executeQuery(inline_query);
   } else {
-    console.log('query ' + inline_query.query + ' is invalid.');
+    winston.error('query ' + inline_query.query + ' is invalid.');
   }
 };
 
@@ -129,13 +126,11 @@ bot.isQueryValid = function(inline_query) {
 bot.executeQuery = function (inline_query) {
   chanService.getRandomMediaURLsFromBoard(inline_query.query, config.QUERY_RESULT_COUNT, function(err, mediaURLs) {
     if (err) {
-      return console.log(err);
+      return winston.error(err);
     } else {
       telegramService.answerQueryWithMedia(config.TOKEN, inline_query.id, mediaURLs, function(err, res, body) {
         if (err) {
-          return console.log(err);
-        } else {
-          return console.log('query ' + inline_query.id + ' answered.');
+          return winston.error(err);
         }
       });
     }
