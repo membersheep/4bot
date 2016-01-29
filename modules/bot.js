@@ -44,7 +44,7 @@ bot.executeBoardCommand = function (message) {
           if (err) {
             return winston.error(err);
           } else {
-            return winston.info('image posted by %j from', message);
+            return winston.info('image posted by from', message);
           }
         });
       } else {
@@ -52,7 +52,7 @@ bot.executeBoardCommand = function (message) {
           if (err) {
             return winston.error(err);
           } else {
-            return winston.info('document posted by %j from', message);
+            return winston.info('document posted by from', message);
           }
         });
       }
@@ -66,7 +66,7 @@ bot.executeGenericCommand = function (message) {
       if (err) {
         return winston.error(err);
       } else {
-        return winston.info('start message posted by %j', message.from);
+        return winston.info('start message posted by ', message.from);
       }
     });
   } else if (message.text == "/help") {
@@ -74,7 +74,7 @@ bot.executeGenericCommand = function (message) {
       if (err) {
         return winston.error(err);
       } else {
-        return winston.info('help message posted by %j', message.from);
+        return winston.info('help message posted by ', message.from);
       }
     });
   }
