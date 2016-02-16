@@ -36,12 +36,14 @@ bot.executeCommand = function(message) {
 bot.executeBoardCommand = function (message) {
   chanService.getRandomImage(message.text, function(err, localPath){
     if (err) {
+      telegramService.postMessage(config.TOKEN, message.chat.id, "There was an error, maybe you're making too much requests...", function(err, res, body) {});
       return winston.error(err);
     } else {
       var extension = localPath.split('.').pop();
       if (extension == 'png' || extension == 'jpg') {
         telegramService.postImage(config.TOKEN, localPath, message.chat.id, function(err, res, body) {
           if (err) {
+            telegramService.postMessage(config.TOKEN, message.chat.id, "There was an error, try again in a few seconds...", function(err, res, body) {});
             return winston.error(err);
           } else {
             return winston.info('image posted by from', message);
@@ -50,6 +52,7 @@ bot.executeBoardCommand = function (message) {
       } else {
         telegramService.postDocument(config.TOKEN, localPath, message.chat.id, function(err, res, body) {
           if (err) {
+            telegramService.postMessage(config.TOKEN, message.chat.id, "There was an error, try again in a few seconds...", function(err, res, body) {});
             return winston.error(err);
           } else {
             return winston.info('document posted by from', message);
