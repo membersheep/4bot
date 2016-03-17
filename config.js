@@ -19,7 +19,7 @@ config.CHAN_BASE_URL = "http://a.4cdn.org/";
 config.CHAN_IMAGE_BASE_URL = "http://i.4cdn.org/";
 
 config.GENERIC_COMMANDS = ["/start", "/help"];
-config.CHAN_SAFE_COMMANDS = ["/i", "/ic", "/r9k", "/s4s", "/cm", "/hm", "/lgbt", "/y", "/3", "/aco", "/adv", "/an", "/asp", "/biz", "/cgl", "/ck", "/co", "/diy", "/fa", "/fit", "/gd", "/hc", "/his", "/int", "/jp", "/lit", "/mlp", "/mu", "/n", "/news", "/out", "/po", "/pol", "/sci", "/soc", "/sp", "/tg", "/toy", "/trv", "/tv", "/vp", "/wsg", "/x"];
+config.CHAN_SAFE_COMMANDS = ["/i", "/ic", "/r9k", "/s4s", "/cm", "/hm", "/lgbt", "/y", "/3", "/aco", "/adv", "/an", "/asp", "/biz", "/cgl", "/ck", "/co", "/diy", "/fa", "/fit", "/gd", "/hc", "/his", "/int", "/jp", "/lit", "/mu", "/n", "/news", "/out", "/po", "/pol", "/sci", "/soc", "/sp", "/tg", "/toy", "/trv", "/tv", "/vp", "/wsg", "/x"];
 config.CHAN_UNSAFE_COMMANDS = ["/a", "/b", "/c", "/d", "/e", "/f", "/g", "/gif", "/h", "/hr", "/k", "/m", "/o", "/p", "/r", "/s", "/t", "/u", "/v", "/vg", "/vr", "/w", "/wg"];
 config.COMMANDS = config.GENERIC_COMMANDS.concat(config.CHAN_SAFE_COMMANDS).concat(config.CHAN_UNSAFE_COMMANDS);
 config.BOARD_COMMANDS = config.CHAN_SAFE_COMMANDS.concat(config.CHAN_UNSAFE_COMMANDS);
