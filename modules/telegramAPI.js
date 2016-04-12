@@ -97,9 +97,10 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     var result = {};
     switch (fileExtension) {
       case 'webm':
-      result.type = 'document';
-      result.mime_type = 'application/pdf';
-      result.document_url = url;
+      result.type = 'video';
+      result.mime_type = 'text/html';
+      result.video_url = url;
+      result.input_message_content.message_text = url;
       break;
       case 'gif':
       result.type = 'gif';
@@ -112,7 +113,7 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       default:
       result.type = 'article';
       result.url = url;
-      result.message_text = url;
+      result.input_message_content.message_text = url;
     }
     // Common properties
     result.id = fileName;
