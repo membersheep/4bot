@@ -98,7 +98,7 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     switch (fileExtension) {
       case 'webm':
       result.type = 'video';
-      result.mime_type = 'video/mp4';
+      result.mime_type = 'text/html';
       result.video_url = url;
       break;
       case 'gif':
