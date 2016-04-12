@@ -90,6 +90,7 @@ telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
 
 telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback) {
   var requestUrl = config.TELEGRAM_BASE_URL + token + config.TELEGRAM_ANSWER_QUERY;
+  console.log('results count: '+mediaURLs.length);
   var results = mediaURLs.map(function(url) {
     var fileExtension = url.split('.').pop();
     var fileName = url.split('/').pop().split('.')[0];
@@ -100,6 +101,7 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       case 'webm':
       result.type = 'mpeg4_gif';
       result.mpeg4_url = url;
+      console.log('webm!');
       break;
       case 'gif':
       result.type = 'gif';
