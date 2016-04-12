@@ -96,12 +96,12 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     var thumbnailUrl = url.replace('.' + fileExtension, 's.jpg');
     var result = {};
     switch (fileExtension) {
-      case 'webm':
-      result.type = 'video';
-      result.mime_type = 'video/mp4';
-      result.video_url = url;
-      result.caption = fileName;
-      break;
+      // case 'webm':
+      // result.type = 'video';
+      // result.mime_type = 'video/mp4';
+      // result.video_url = url;
+      // result.caption = fileName;
+      // break;
       case 'gif':
       result.type = 'gif';
       result.gif_url = url;
