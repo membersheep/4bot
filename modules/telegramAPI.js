@@ -101,7 +101,7 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       case 'webm':
       result.type = 'video';
       result.mime_type = 'text/html';
-      result.mpeg4_url = url;
+      result.video_url = url;
       console.log('webm!');
       break;
       case 'gif':
