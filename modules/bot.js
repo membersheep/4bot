@@ -126,7 +126,7 @@ bot.isQueryValid = function(inline_query) {
   return config.VALID_QUERIES.indexOf(inline_query.query) >= 0;
 };
 
-bot.executeQuery = function (inline_query) {
+bot.executeQuery = function(inline_query) {
   chanService.getRandomMediaURLsFromBoard(inline_query.query, config.QUERY_RESULT_COUNT, function(err, mediaURLs) {
     if (err) {
       return winston.error(err);

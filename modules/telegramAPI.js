@@ -95,12 +95,25 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     var fileName = url.split('/').pop().split('.')[0];
     var thumbnailUrl = url.replace('.' + fileExtension, 's.jpg');
     var result = {};
-    // For now we send everything as article due to telegram
-    result.type = 'article';
+
+    switch (expr) {
+      case 'webm':
+      result.type = 'video';
+      result.video_url = url;
+      result.mime_type = 'mime_type';
+      break;
+      case 'gif':
+      result.type = 'gif';
+      result.gif_url = url;
+      break;
+      default:
+      result.type = 'article';
+      result.url = url;
+    }
+    // Common properties
     result.id = fileName;
     result.title = fileName;
     result.message_text = url;
-    result.url = url;
     result.thumb_url = thumbnailUrl;
     return result;
   });
