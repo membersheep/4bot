@@ -90,23 +90,28 @@ telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
 
 telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback) {
   var requestUrl = config.TELEGRAM_BASE_URL + token + config.TELEGRAM_ANSWER_QUERY;
-  console.log('results count: '+mediaURLs.length);
   var results = mediaURLs.map(function(url) {
     var fileExtension = url.split('.').pop();
     var fileName = url.split('/').pop().split('.')[0];
     var thumbnailUrl = url.replace('.' + fileExtension, 's.jpg');
     var result = {};
-
     switch (fileExtension) {
       case 'webm':
       result.type = 'video';
       result.mime_type = 'video/mp4';
       result.video_url = url;
-      console.log('webm!');
       break;
       case 'gif':
       result.type = 'gif';
       result.gif_url = url;
+      break;
+      case 'jpeg':
+      result.type = 'photo';
+      result.photo_url = url;
+      break;
+      case 'png':
+      result.type = 'photo';
+      result.photo_url = url;
       break;
       default:
       result.type = 'article';
@@ -125,8 +130,6 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     } else if (res.statusCode == 200) {
       return callback(null, res, body);
     } else {
-      console.log(res);
-      console.log(body.error_code);
       return callback(new Error(body.error_code));
     }
   });
