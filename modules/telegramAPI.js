@@ -106,10 +106,8 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       result.gif_url = url;
       break;
       case 'jpeg':
-      result.type = 'photo';
-      result.photo_url = url;
-      break;
       case 'png':
+      case 'jpg':
       result.type = 'photo';
       result.photo_url = url;
       break;
