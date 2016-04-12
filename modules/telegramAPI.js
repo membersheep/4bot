@@ -114,11 +114,11 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       default:
       result.type = 'article';
       result.url = url;
+      result.message_text = url;
     }
     // Common properties
     result.id = fileName;
     result.title = fileName;
-    result.message_text = url;
     result.thumb_url = thumbnailUrl;
     return result;
   });
