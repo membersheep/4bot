@@ -98,10 +98,9 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     switch (fileExtension) {
       case 'webm':
       result.type = 'video';
-      result.mime_type = 'text/html';
+      result.mime_type = 'video/mp4';
       result.video_url = url;
       result.caption = fileName;
-      result.input_message_content = {message_text: url};
       break;
       case 'gif':
       result.type = 'gif';
@@ -128,7 +127,6 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     } else if (res.statusCode == 200) {
       return callback(null, res, body);
     } else {
-      console.log(body);
       return callback(new Error(body.error_code));
     }
   });
