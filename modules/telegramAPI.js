@@ -100,7 +100,7 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       result.type = 'video';
       result.mime_type = 'text/html';
       result.video_url = url;
-      result.input_message_content.message_text = url;
+      result.input_message_content = {message_text: url};
       break;
       case 'gif':
       result.type = 'gif';
@@ -113,7 +113,7 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       default:
       result.type = 'article';
       result.url = url;
-      result.input_message_content.message_text = url;
+      result.input_message_content = {message_text: url};
     }
     // Common properties
     result.id = fileName;
