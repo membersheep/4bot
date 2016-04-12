@@ -100,6 +100,7 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       result.type = 'video';
       result.mime_type = 'text/html';
       result.video_url = url;
+      result.caption = fileName;
       result.input_message_content = {message_text: url};
       break;
       case 'gif':
