@@ -123,6 +123,8 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     } else if (res.statusCode == 200) {
       return callback(null, res, body);
     } else {
+      console.log(res);
+      console.log(body.error_code);
       return callback(new Error(body.error_code));
     }
   });
