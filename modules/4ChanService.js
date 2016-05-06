@@ -3,18 +3,20 @@ var config = require('../config');
 var NodeCache = require("node-cache");
 
 var chanService = {};
-var boardsCache = new NodeCache();
+var boardsCache = new NodeCache({stdTTL: 100});
 
 chanService.getRandomImage = function(board, callback) {
+  console.log("DEBUG: CHECKING CACHE");
   boardsCache.get(board, function(err, value) {
-    if(err) {
+    console.log("DEBUG: GET CALLBACK");
+    if (err) {
       console.log("DEBUG: DOWNLOADING JSON FOR " + board);
       chanAPI.downloadJSONForBoard(board, function(err, body) {
         if (err) {
           console.log("DEBUG: ERROR DOWNLOADING JSON");
           return callback(err);
         } else {
-          boardsCache.set( board, body, 120 );
+          boardsCache.set(board, body);
           var randomFileName = extractRandomFileName(body);
           if (randomFileName === undefined) {
             return callback(new Error("Impossible to extract a file name from JSON."));
@@ -44,6 +46,8 @@ chanService.getRandomImage = function(board, callback) {
             return callback(null, path);
           }
       	});
+      } else {
+        console.log("DEBUG: MISSING VALUE IN CACHE FOR " + board);
       }
     }
   });
