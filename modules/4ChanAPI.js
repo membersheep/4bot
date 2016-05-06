@@ -22,7 +22,9 @@ chanInterface.downloadJSONForBoard = function(board, callback) {
     } else {
       return callback(new Error("Unable to download JSON. Code " + res.statusCode));
     }
-  });
+  }).on('error', function(err) {
+		return callback(err);
+	});
 };
 
 chanInterface.downloadMedia = function(name, board, localPath, callback) {
@@ -38,6 +40,8 @@ chanInterface.downloadMedia = function(name, board, localPath, callback) {
 		    } else {
 		      var r = request(requestUrl).pipe(fs.createWriteStream(targetPath)).on('close', function(){
 						callback(null, targetPath);
+					}).on('error', function(err) {
+						return callback(err);
 					});
 		    }
 		  });
