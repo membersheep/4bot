@@ -13,6 +13,9 @@ var chanInterface = {};
 
 chanInterface.downloadJSONForBoard = function(board, callback) {
 	var randomPageNumber = Math.floor(Math.random() * 10) + 1;
+	if (board == "f") {
+		randomPageNumber = 1;
+	}
   var requestUrl = config.CHAN_BASE_URL + board + "/" + randomPageNumber + ".json";
   request(requestUrl, requestOptions, function (err, res, body) {
     if (err) {
