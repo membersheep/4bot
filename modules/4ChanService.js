@@ -3,12 +3,13 @@ var config = require('../config');
 var NodeCache = require("node-cache");
 
 var chanService = {};
-var boardsCache = new NodeCache({stdTTL: 100});
+var boardsCache = new NodeCache({stdTTL: 120});
 
 chanService.getRandomImage = function(board, callback) {
   console.log("DEBUG: CHECKING CACHE");
   boardsCache.get(board, function(err, value) {
-    console.log("DEBUG: GET CALLBACK");
+    console.log(err);
+    console.log(value);
     if (err) {
       console.log("DEBUG: DOWNLOADING JSON FOR " + board);
       chanAPI.downloadJSONForBoard(board, function(err, body) {
