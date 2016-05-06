@@ -13,6 +13,7 @@ var chanInterface = {};
 
 chanInterface.downloadJSONForBoard = function(board, callback) {
 	var randomPageNumber = Math.floor(Math.random() * 10) + 1;
+	console.log(board);
 	if (board == "f") {
 		randomPageNumber = 1;
 	}
