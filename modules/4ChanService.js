@@ -1,28 +1,52 @@
 var chanAPI = require('./4ChanAPI');
 var config = require('../config');
+var cache = require("node-cache");
 
 var chanService = {};
+var boardsCache = new NodeCache();
 
 chanService.getRandomImage = function(board, callback) {
-  chanAPI.downloadJSONForBoard(board, function(err, body){
-    if (err) {
-      console.log("DEBUG: ERROR DOWNLOADING JSON");
-      return callback(err);
-    } else {
-      var randomFileName = extractRandomFileName(body);
-      if (randomFileName === undefined) {
-        return callback(new Error("Impossible to extract a file name from JSON."));
-      }
-      chanAPI.downloadMedia(randomFileName, board, __dirname + "/../images", function(err, path){
+  boardsCache.get(board, function(err, value) {
+    if(err) {
+      console.log("DEBUG: DOWNLOADING JSON FOR " + board);
+      chanAPI.downloadJSONForBoard(board, function(err, body) {
         if (err) {
-          console.log("DEBUG: ERROR DOWNLOADING MEDIA");
+          console.log("DEBUG: ERROR DOWNLOADING JSON");
           return callback(err);
         } else {
-          return callback(null, path);
+          boardsCache.set( board, body, 120 );
+          var randomFileName = extractRandomFileName(body);
+          if (randomFileName === undefined) {
+            return callback(new Error("Impossible to extract a file name from JSON."));
+          }
+          chanAPI.downloadMedia(randomFileName, board, __dirname + "/../images", function(err, path){
+            if (err) {
+              console.log("DEBUG: ERROR DOWNLOADING MEDIA");
+              return callback(err);
+            } else {
+              return callback(null, path);
+            }
+        	});
         }
     	});
+    } else {
+      if (value) {
+        console.log("DEBUG: JSON FOUND IN CACHE FOR " + board);
+        var randomFileName = extractRandomFileName(value);
+        if (randomFileName === undefined) {
+          return callback(new Error("Impossible to extract a file name from JSON."));
+        }
+        chanAPI.downloadMedia(randomFileName, board, __dirname + "/../images", function(err, path){
+          if (err) {
+            console.log("DEBUG: ERROR DOWNLOADING MEDIA");
+            return callback(err);
+          } else {
+            return callback(null, path);
+          }
+      	});
+      }
     }
-	});
+  });
 };
 
 chanService.getRandomMediaURLsFromBoard = function(boardName, count, callback) {

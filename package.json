@@ -20,6 +20,7 @@
   "dependencies": {
     "body-parser": "1.14.2",
     "express": "^4.13.3",
+    "node-cache": "^3.2.1",
     "proxyquire": "^1.7.3",
     "request": "2.67.0",
     "winston": "^2.1.1"
