@@ -33,7 +33,7 @@ chanService.getRandomImage = function(board, callback) {
       if (value) {
         var randomFileName = extractRandomFileName(value);
         if (board == "/f") {
-          randomFileName = extractRandomFlashFileName(body);
+          randomFileName = extractRandomFlashFileName(value);
         }
         if (randomFileName === undefined) {
           return callback(new Error("Impossible to extract a file name from JSON."));
