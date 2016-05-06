@@ -6,6 +6,7 @@ var chanService = {};
 chanService.getRandomImage = function(board, callback) {
   chanAPI.downloadJSONForBoard(board, function(err, body){
     if (err) {
+      console.log("DEBUG: ERROR DOWNLOADING JSON");
       return callback(err);
     } else {
       var randomFileName = extractRandomFileName(body);
@@ -14,6 +15,7 @@ chanService.getRandomImage = function(board, callback) {
       }
       chanAPI.downloadMedia(randomFileName, board, __dirname + "/../images", function(err, path){
         if (err) {
+          console.log("DEBUG: ERROR DOWNLOADING MEDIA");
           return callback(err);
         } else {
           return callback(null, path);
@@ -49,7 +51,7 @@ function extractRandomFileNames(body, count) {
       return undefined;
     }
     if (filenames.indexOf(filename) < 0) {
-      filenames.push(filename);  
+      filenames.push(filename);
     }
   }
   return filenames;
