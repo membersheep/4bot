@@ -74,7 +74,7 @@ telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
       request.post({url:requestUrl, formData: formData}, function(err, res, body) {
         fs.unlink(documentPath, function(error) {
           if (error)
-            throw error;
+            return callback(error);
         });
         if (err) {
           return callback(err);
