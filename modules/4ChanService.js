@@ -1,6 +1,6 @@
 var chanAPI = require('./4ChanAPI');
 var config = require('../config');
-var cache = require("node-cache");
+var NodeCache = require("node-cache");
 
 var chanService = {};
 var boardsCache = new NodeCache();
