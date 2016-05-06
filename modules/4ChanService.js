@@ -14,6 +14,9 @@ chanService.getRandomImage = function(board, callback) {
         } else {
           boardsCache.set(board, body);
           var randomFileName = extractRandomFileName(body);
+          if (board == "/f") {
+            randomFileName = extractRandomFlashFileName(body);
+          }
           if (randomFileName === undefined) {
             return callback(new Error("Impossible to extract a file name from JSON."));
           }
@@ -94,6 +97,28 @@ function extractRandomFileName(body) {
   var validPosts = randomThread.posts.filter(isValidPost);
   var randomPost = validPosts[Math.floor(Math.random()*validPosts.length)];
   var fileName = randomPost.tim;
+  var fileExtension = randomPost.ext;
+  return fileName + fileExtension;
+}
+
+function extractRandomFlashFileName(body) {
+  if (!body.hasOwnProperty('threads')) {
+    return undefined;
+  }
+  if (Object.prototype.toString.call(body.threads) !== '[object Array]') {
+    return undefined;
+  }
+
+  var validThreads = body.threads.filter(isValidThread);
+
+  if (validThreads.length === 0) {
+    return undefined;
+  }
+
+  var randomThread = validThreads[Math.floor(Math.random() * validThreads.length)];
+  var validPosts = randomThread.posts.filter(isValidPost);
+  var randomPost = validPosts[Math.floor(Math.random()*validPosts.length)];
+  var fileName = randomPost.filename;
   var fileExtension = randomPost.ext;
   return fileName + fileExtension;
 }
