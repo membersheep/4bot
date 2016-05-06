@@ -6,13 +6,10 @@ var chanService = {};
 var boardsCache = new NodeCache({stdTTL: 120});
 
 chanService.getRandomImage = function(board, callback) {
-  console.log("DEBUG: CHECKING CACHE");
   boardsCache.get(board, function(err, value) {
     if (err || value === undefined) {
-      console.log("DEBUG: DOWNLOADING JSON FOR " + board);
       chanAPI.downloadJSONForBoard(board, function(err, body) {
         if (err) {
-          console.log("DEBUG: ERROR DOWNLOADING JSON");
           return callback(err);
         } else {
           boardsCache.set(board, body);
@@ -22,7 +19,6 @@ chanService.getRandomImage = function(board, callback) {
           }
           chanAPI.downloadMedia(randomFileName, board, __dirname + "/../images", function(err, path){
             if (err) {
-              console.log("DEBUG: ERROR DOWNLOADING MEDIA");
               return callback(err);
             } else {
               return callback(null, path);
@@ -32,21 +28,17 @@ chanService.getRandomImage = function(board, callback) {
     	});
     } else {
       if (value) {
-        console.log("DEBUG: JSON FOUND IN CACHE FOR " + board);
         var randomFileName = extractRandomFileName(value);
         if (randomFileName === undefined) {
           return callback(new Error("Impossible to extract a file name from JSON."));
         }
         chanAPI.downloadMedia(randomFileName, board, __dirname + "/../images", function(err, path){
           if (err) {
-            console.log("DEBUG: ERROR DOWNLOADING MEDIA");
             return callback(err);
           } else {
             return callback(null, path);
           }
       	});
-      } else {
-        console.log("DEBUG: MISSING VALUE IN CACHE FOR " + board);
       }
     }
   });
