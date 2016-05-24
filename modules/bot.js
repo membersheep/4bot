@@ -1,13 +1,15 @@
 var config = require('../config');
 var chanService = require('./4ChanService');
 var telegramService = require('./telegramAPI');
-var winston = require('winston');
+var logger = require('./logger');
+var messagesLogger = require('./messagesLogger');
 
 var bot = {};
 
 // MESSAGES
 
 bot.readMessage = function(message) {
+  messagesLogger.info(message.from + ': ' + message.text);
   message.text = bot.normalizeMessage(message);
   if (bot.isMessageNew(message)) {
     if (bot.isMessageCommand(message)) {
@@ -18,7 +20,7 @@ bot.readMessage = function(message) {
           var response = message.text + ' is not a command. Read /help to learn how to use this bot.';
           telegramService.postMessage(config.TOKEN, message.chat.id, response, function(err, res, body) {
             if (err) {
-              return winston.error(err);
+              return logger.error(err);
             }
           });
         }
@@ -39,25 +41,25 @@ bot.executeBoardCommand = function (message) {
   chanService.getRandomImage(message.text, function(err, localPath){
     if (err) {
       telegramService.postMessage(config.TOKEN, message.chat.id, "There was an error (4chan API timed out), maybe you're making too much requests...", function(err, res, body) {});
-      return winston.error(err);
+      return logger.error(err);
     } else {
       var extension = localPath.split('.').pop();
       if (extension == 'png' || extension == 'jpg') {
         telegramService.postImage(config.TOKEN, localPath, message.chat.id, function(err, res, body) {
           if (err) {
             telegramService.postMessage(config.TOKEN, message.chat.id, "There was an error (Telegram API timed out), try again in a few seconds...", function(err, res, body) {});
-            return winston.error(err);
+            return logger.error(err);
           } else {
-            return winston.info('image posted by from', message);
+            return logger.info('image posted by from', message);
           }
         });
       } else {
         telegramService.postDocument(config.TOKEN, localPath, message.chat.id, function(err, res, body) {
           if (err) {
             telegramService.postMessage(config.TOKEN, message.chat.id, "There was an error (Telegram API timed out), try again in a few seconds...", function(err, res, body) {});
-            return winston.error(err);
+            return logger.error(err);
           } else {
-            return winston.info('document posted by from', message);
+            return logger.info('document posted by from', message);
           }
         });
       }
@@ -69,17 +71,17 @@ bot.executeGenericCommand = function (message) {
   if (message.text == "/start") {
     telegramService.postMessage(config.TOKEN, message.chat.id, config.START_MESSAGE,function(err, res, body) {
       if (err) {
-        return winston.error(err);
+        return logger.error(err);
       } else {
-        return winston.info('start message posted by ', message.from);
+        return logger.info('start message posted by ', message.from);
       }
     });
   } else if (message.text == "/help") {
     telegramService.postMessage(config.TOKEN, message.chat.id, config.HELP_MESSAGE, function(err, res, body) {
       if (err) {
-        return winston.error(err);
+        return logger.error(err);
       } else {
-        return winston.info('help message posted by ', message.from);
+        return logger.info('help message posted by ', message.from);
       }
     });
   }
@@ -124,7 +126,7 @@ bot.readQuery = function(inline_query) {
   if (bot.isQueryValid(inline_query)) {
     bot.executeQuery(inline_query);
   } else {
-    winston.error('query ' + inline_query.query + ' is invalid.');
+    logger.error('query ' + inline_query.query + ' is invalid.');
   }
 };
 
@@ -138,11 +140,11 @@ bot.isQueryValid = function(inline_query) {
 bot.executeQuery = function(inline_query) {
   chanService.getRandomMediaURLsFromBoard(inline_query.query, config.QUERY_RESULT_COUNT, function(err, mediaURLs) {
     if (err) {
-      return winston.error(err);
+      return logger.error(err);
     } else {
       telegramService.answerQueryWithMedia(config.TOKEN, inline_query.id, mediaURLs, function(err, res, body) {
         if (err) {
-          return winston.error(err);
+          return logger.error(err);
         }
       });
     }
