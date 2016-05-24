@@ -2,7 +2,7 @@ var config = require('./config');
 var express = require('express');
 var bodyParser = require('body-parser');
 var winston = require('winston');
-winston.add(winston.transports.File, { filename: 'info.log', level: 'info' });
+winston.add(winston.transports.File, { filename: 'logs/info.log', level: 'info' });
 winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, { level: 'info' });
 
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/status', statusHandler);
 app.post('/telegramBot', telegramHandler);
-app.use(express.static());
+app.use('/logs', express.static('logs'));
 
 var server = app.listen(config.SERVER_PORT, function () {
   var host = server.address().address;

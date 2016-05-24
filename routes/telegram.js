@@ -9,10 +9,12 @@ module.exports = function(req, res) {
   var body = req.body;
 
   if (body.hasOwnProperty('message')) {
+    winston.info('HANDLING MESSAGE:');
+    winston.info(body.message);
     bot.readMessage(body.message);
   } else if (body.hasOwnProperty('inline_query')) {
     bot.readQuery(body.inline_query);
   }
-
+  winston.info('MESSAGE HANDLED \n');
   res.send();
 };
