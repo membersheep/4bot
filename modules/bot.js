@@ -9,7 +9,7 @@ var bot = {};
 // MESSAGES
 
 bot.readMessage = function(message) {
-  messagesLogger.info(message.from.first_name + message.from.username + message.from.last_name + ': ' + message.text);
+  messagesLogger.info(message.from.first_name +' '+ message.from.username +' '+ message.from.last_name + ': ' + message.text);
   message.text = bot.normalizeMessage(message);
   if (bot.isMessageNew(message)) {
     if (bot.isMessageCommand(message)) {
