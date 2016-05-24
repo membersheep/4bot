@@ -7,7 +7,6 @@ winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, { level: 'info' });
 
 var statusHandler = require('./routes/status');
-var logHandler = require('./routes/log');
 var telegramHandler = require('./routes/telegram');
 
 var app = express();
