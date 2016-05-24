@@ -6,7 +6,8 @@ var logger = new (winston.Logger)({
     new (winston.transports.File)({
       name: 'info-file',
       filename: 'info.log',
-      level: 'info'
+      level: 'info',
+      json: false
     })
   ]
 });
