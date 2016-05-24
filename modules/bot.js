@@ -89,7 +89,7 @@ bot.isMessageCommand = function(message) {
   if (!message.hasOwnProperty('text')) {
     return false;
   }
-  return message.startsWith("/");
+  return message.text.startsWith("/");
 };
 
 bot.isValidCommand = function(message) {
