@@ -11,15 +11,17 @@ bot.readMessage = function(message) {
   message.text = bot.normalizeMessage(message);
   if (bot.isMessageNew(message)) {
     if (bot.isMessageCommand(message)) {
-      bot.executeCommand(message);
-    } else {
-      if (message.text) {
-        var response = message.text + ' is not a command. Read /help to learn how to use this bot.';
-        telegramService.postMessage(config.TOKEN, message.chat.id, response, function(err, res, body) {
-          if (err) {
-            return winston.error(err);
-          }
-        });
+      if (bot.isValidCommand(message)) {
+        bot.executeCommand(message);
+      } else {
+        if (message.text) {
+          var response = message.text + ' is not a command. Read /help to learn how to use this bot.';
+          telegramService.postMessage(config.TOKEN, message.chat.id, response, function(err, res, body) {
+            if (err) {
+              return winston.error(err);
+            }
+          });
+        }
       }
     }
   }
@@ -84,6 +86,13 @@ bot.executeGenericCommand = function (message) {
 };
 
 bot.isMessageCommand = function(message) {
+  if (!message.hasOwnProperty('text')) {
+    return false;
+  }
+  return message.startsWith("/");
+};
+
+bot.isValidCommand = function(message) {
   if (!message.hasOwnProperty('text')) {
     return false;
   }
