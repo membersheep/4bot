@@ -103,7 +103,7 @@ bot.isValidCommand = function(message) {
 
 bot.normalizeMessage = function(message) {
   if (!message.hasOwnProperty('text')) {
-    return false;
+    return '';
   }
   return message.text.replace("@" + config.BOT_NAME, "");
 };
