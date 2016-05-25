@@ -20,3 +20,13 @@ Enjoy!
 ```
     curl -X GET https://api.telegram.org/bot*YOUR_TOKEN*/setWebhook?url=https://*APPNAME*.herokuapp.com/telegramBot
 ```
+
+## Run tests
+1. Install jasmine globally:
+    ```
+    npm install -g jasmine
+    ```
+2. Run jasmine:
+    ```
+    jasmine
+    ```
