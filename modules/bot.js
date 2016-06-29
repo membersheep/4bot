@@ -98,6 +98,9 @@ bot.isValidCommand = function(message) {
   if (!message.hasOwnProperty('text')) {
     return false;
   }
+  if (message.text === '/random') {
+    message.text = config.COMMANDS[Math.floor(Math.random() * config.COMMANDS.length)];
+  }
   return config.COMMANDS.indexOf(message.text) >= 0;
 };
 
