@@ -5,7 +5,7 @@ var logger = require('./logger');
 var messagesLogger = require('./messagesLogger');
 var NodeCache = require("node-cache");
 
-var messageLimiter = new NodeCache({stdTTL: 5});
+var messageLimiter = new NodeCache({stdTTL: 2});
 var bot = {};
 
 // MESSAGES
@@ -18,6 +18,12 @@ bot.readMessage = function(message) {
       if (bot.isValidCommand(message)) {
         if (!bot.isUserSpamming(message)) {
           bot.executeCommand(message);
+        } else {
+          telegramService.postMessage(config.TOKEN, message.chat.id, 'Wait 2 seconds before posting another command.', function(err, res, body) {
+            if (err) {
+              return logger.error(err);
+            }
+          });
         }
       } else {
         if (message.text) {
@@ -128,6 +134,7 @@ bot.isMessageNew = function(message) {
 };
 
 bot.isUserSpamming = function(message) {
+  logger.info('spamming?');
   if (!message.hasOwnProperty('from')) {
     return false;
   }
@@ -135,12 +142,15 @@ bot.isUserSpamming = function(message) {
   if (!user.hasOwnProperty('id')) {
     return false;
   }
+  logger.info('id is '+id);
   var id = user.id;
   var value = messageLimiter.get(id);
   if (value === undefined) {
+    logger.info('found in cache');
     messageLimiter.set(id, {});
     return true;
   }
+  logger.info('not found in cache');
   return false;
 };
 
