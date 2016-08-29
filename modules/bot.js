@@ -19,7 +19,7 @@ bot.readMessage = function(message) {
         if (!bot.isUserSpamming(message)) {
           bot.executeCommand(message);
         } else {
-          telegramService.postMessage(config.TOKEN, message.chat.id, 'Wait ' + config.TIME_LIMIT + ' seconds before posting another command.', function(err, res, body) {
+          telegramService.postMessage(config.TOKEN, message.chat.id, 'Wait at least ' + config.TIME_LIMIT + ' seconds between consecutive commands.', function(err, res, body) {
             if (err) {
               return logger.error(err);
             }
