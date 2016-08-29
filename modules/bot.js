@@ -5,7 +5,7 @@ var logger = require('./logger');
 var messagesLogger = require('./messagesLogger');
 var NodeCache = require("node-cache");
 
-var messageLimiter = new NodeCache({stdTTL: 2});
+var messageLimiter = new NodeCache({stdTTL: config.TIME_LIMIT});
 var bot = {};
 
 // MESSAGES
@@ -19,7 +19,7 @@ bot.readMessage = function(message) {
         if (!bot.isUserSpamming(message)) {
           bot.executeCommand(message);
         } else {
-          telegramService.postMessage(config.TOKEN, message.chat.id, 'Wait 2 seconds before posting another command.', function(err, res, body) {
+          telegramService.postMessage(config.TOKEN, message.chat.id, 'Wait ' + config.TIME_LIMIT + ' seconds before posting another command.', function(err, res, body) {
             if (err) {
               return logger.error(err);
             }
