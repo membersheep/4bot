@@ -146,12 +146,12 @@ bot.isUserSpamming = function(message) {
   logger.info('id is '+id);
   var value = messageLimiter.get(id);
   if (value === undefined) {
-    logger.info('found in cache');
+    logger.info('not found in cache');
     messageLimiter.set(id, {});
-    return true;
+    return false;
   }
-  logger.info('not found in cache');
-  return false;
+  logger.info('found in cache');
+  return true;
 };
 
 // INLINE QUERIES
