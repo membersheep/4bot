@@ -3,7 +3,9 @@ var chanService = require('./4ChanService');
 var telegramService = require('./telegramAPI');
 var logger = require('./logger');
 var messagesLogger = require('./messagesLogger');
+var NodeCache = require("node-cache");
 
+var messageLimiter = new NodeCache({stdTTL: 5});
 var bot = {};
 
 // MESSAGES
@@ -14,7 +16,9 @@ bot.readMessage = function(message) {
   if (bot.isMessageNew(message)) {
     if (bot.isMessageCommand(message)) {
       if (bot.isValidCommand(message)) {
-        bot.executeCommand(message);
+        if (!bot.isUserSpamming(message)) {
+          bot.executeCommand(message);
+        }
       } else {
         if (message.text) {
           var response = message.text + ' is not a command. Read /help to learn how to use this bot.';
@@ -121,6 +125,23 @@ bot.isMessageNew = function(message) {
   var currentDate = Date.now();
   var ONE_MINUTE = 60 * 60 * 1000;
   return (currentDate/1000 - message.date) < ONE_MINUTE;
+};
+
+bot.isUserSpamming = function(message) {
+  if (!message.hasOwnProperty('from')) {
+    return false;
+  }
+  var user = message.from;
+  if (!user.hasOwnProperty('id')) {
+    return false;
+  }
+  var id = user.id;
+  var value = messageLimiter.get(id);
+  if (value === undefined) {
+    messageLimiter.set(id, {});
+    return true;
+  }
+  return false;
 };
 
 // INLINE QUERIES
