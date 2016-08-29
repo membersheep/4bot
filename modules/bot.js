@@ -142,8 +142,8 @@ bot.isUserSpamming = function(message) {
   if (!user.hasOwnProperty('id')) {
     return false;
   }
-  logger.info('id is '+id);
   var id = user.id;
+  logger.info('id is '+id);
   var value = messageLimiter.get(id);
   if (value === undefined) {
     logger.info('found in cache');
