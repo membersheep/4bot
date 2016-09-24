@@ -109,7 +109,7 @@ bot.isValidCommand = function(message) {
     return false;
   }
   if (message.text === '/random') {
-    message.text = config.COMMANDS[Math.floor(Math.random() * config.COMMANDS.length)];
+    message.text = config.BOARD_COMMANDS[Math.floor(Math.random() * config.BOARD_COMMANDS.length)];
   }
   return config.COMMANDS.indexOf(message.text) >= 0;
 };
