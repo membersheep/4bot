@@ -19,6 +19,7 @@
   "homepage": "https://github.com/membersheep/4bot#readme",
   "dependencies": {
     "body-parser": "1.14.2",
+    "botanio": "0.0.6",
     "express": "^4.13.3",
     "node-cache": "^3.2.1",
     "proxyquire": "^1.7.3",
