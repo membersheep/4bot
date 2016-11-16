@@ -2,6 +2,8 @@
 ![Heroku](https://heroku-badge.herokuapp.com/?app=fourbot&root=status&style=flat)
 ![Dependencies](https://david-dm.org/membersheep/4bot.svg)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 A telegram bot to serve random content from 4chan image boards.
 
 ## How to use
