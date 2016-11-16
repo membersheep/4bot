@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/status', statusHandler);
 app.post('/telegramBot', telegramHandler);
-app.use('/logs', express.static('./'));
+app.use(express.static('public'));
 
 var server = app.listen(config.SERVER_PORT, function () {
   var host = server.address().address;
