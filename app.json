@@ -1,0 +1,22 @@
+{
+  "name": "4Bot",
+  "description": "A telegram bot to serve random content from 4chan image boards.",
+  "repository": "https://github.com/membersheep/4bot",
+  "env": {
+    "TELEGRAM_TOKEN": {
+      "description": "A secret tokene released by the BotFather when you create a new bot.",
+      "value": "insert-your-telegram-token-here"
+    },
+    "TELEGRAM_USERNAME": {
+      "description": "The username of your bot.",
+      "value": "your-bot-username"
+    },
+    "BOTAN_TOKEN": {
+      "description": "A secret tokene released by the BotanioBot if you want to track your bot's data.",
+      "value": "insert-your-botan-token-here",
+      "required": false
+    }
+  },
+  "success_url": "/status",
+  "keywords": ["node", "express", "telegram", "4chan", "bot"]
+}
