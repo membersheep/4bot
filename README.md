@@ -23,6 +23,8 @@ Enjoy!
     curl -X GET https://api.telegram.org/bot*YOUR_TOKEN*/setWebhook?url=https://*APPNAME*.herokuapp.com/telegramBot
 ```
 
+While the steps 1 and 2 can be automated by using the "Deploy to Heroku" button, you still have to create a bot through the BotFather, set its token and username as config vars, and set the webhook manually.
+
 ## Run tests
 1. Install jasmine globally:
     ```
