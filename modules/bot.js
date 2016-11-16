@@ -42,7 +42,7 @@ bot.readMessage = function(message) {
 };
 
 bot.executeCommand = function(message) {
-  botan(message, message.text);
+  botan.track(message, message.text);
   if(config.BOARD_COMMANDS.indexOf(message.text) >= 0) {
     bot.executeBoardCommand(message);
   } else if(config.GENERIC_COMMANDS.indexOf(message.text) >= 0) {
@@ -175,7 +175,7 @@ bot.isQueryValid = function(inline_query) {
 };
 
 bot.executeQuery = function(inline_query) {
-  botan(inline_query, inline_query.query);
+  botan.track(inline_query, inline_query.query);
   chanService.getRandomMediaURLsFromBoard(inline_query.query, config.QUERY_RESULT_COUNT, function(err, mediaURLs) {
     if (err) {
       return logger.error(err);
