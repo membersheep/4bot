@@ -4,7 +4,7 @@ var fs = require('fs');
 
 var telegramAPI = {};
 
-telegramAPI.setupWebhook = function(token, url, callback){
+telegramAPI.setupWebhook = function (token, url, callback) {
   var requestUrl = config.TELEGRAM_BASE_URL + token + config.TELEGRAM_SETUP_WEBHOOK.replace(":url", url);
   request(requestUrl, {}, function (err, res, body) {
     if (err) {
@@ -17,13 +17,21 @@ telegramAPI.setupWebhook = function(token, url, callback){
   });
 };
 
-telegramAPI.postMessage = function(token, chatId, message, callback) {
+telegramAPI.postMessage = function (token, chatId, message, callback, opt) {
   var requestUrl = config.TELEGRAM_BASE_URL + token + config.TELEGRAM_POST_MESSAGE;
   var formData = {
     chat_id: chatId,
     text: message
   };
-  request.post({url:requestUrl, formData: formData}, function(err, res, body) {
+
+  request.post({
+    url: requestUrl,
+    method: 'POST',
+    json: Object.assign(formData, opt),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }, function (err, res, body) {
     if (err) {
       return callback(err);
     } else if (res.statusCode == 200) {
@@ -34,8 +42,8 @@ telegramAPI.postMessage = function(token, chatId, message, callback) {
   });
 };
 
-telegramAPI.postImage = function(token, imagePath, chatId, callback) {
-  fs.access(imagePath, fs.F_OK, function(err) {
+telegramAPI.postImage = function (token, imagePath, chatId, callback, opt) {
+  fs.access(imagePath, fs.F_OK, function (err) {
     if (err) {
       callback(err);
     } else {
@@ -44,8 +52,11 @@ telegramAPI.postImage = function(token, imagePath, chatId, callback) {
         chat_id: chatId,
         photo: fs.createReadStream(imagePath)
       };
-      request.post({url:requestUrl, formData: formData}, function(err, res, body) {
-        fs.unlink(imagePath, function(error) {
+      request.post({
+        url: requestUrl,
+        formData: Object.assign(formData, opt)
+      }, function (err, res, body) {
+        fs.unlink(imagePath, function (error) {
           if (error)
             return callback(error);
         });
@@ -61,8 +72,8 @@ telegramAPI.postImage = function(token, imagePath, chatId, callback) {
   });
 };
 
-telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
-  fs.access(documentPath, fs.F_OK, function(err) {
+telegramAPI.postDocument = function (token, documentPath, chatId, callback, opt) {
+  fs.access(documentPath, fs.F_OK, function (err) {
     if (err) {
       callback(err);
     } else {
@@ -71,8 +82,11 @@ telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
         chat_id: chatId,
         document: fs.createReadStream(documentPath)
       };
-      request.post({url:requestUrl, formData: formData}, function(err, res, body) {
-        fs.unlink(documentPath, function(error) {
+      request.post({
+        url: requestUrl,
+        formData: Object.assign(formData, opt)
+      }, function (err, res, body) {
+        fs.unlink(documentPath, function (error) {
           if (error)
             return callback(error);
         });
@@ -88,9 +102,9 @@ telegramAPI.postDocument = function(token, documentPath, chatId, callback) {
   });
 };
 
-telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback) {
+telegramAPI.answerQueryWithMedia = function (token, queryId, mediaURLs, callback) {
   var requestUrl = config.TELEGRAM_BASE_URL + token + config.TELEGRAM_ANSWER_QUERY;
-  var results = mediaURLs.map(function(url) {
+  var results = mediaURLs.map(function (url) {
     var fileExtension = url.split('.').pop();
     var fileName = url.split('/').pop().split('.')[0];
     var thumbnailUrl = url.replace('.' + fileExtension, 's.jpg');
@@ -103,17 +117,19 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
       // result.caption = fileName;
       // break;
       case 'gif':
-      result.type = 'gif';
-      result.gif_url = url;
-      break;
+        result.type = 'gif';
+        result.gif_url = url;
+        break;
       case 'jpeg':
-      result.type = 'photo';
-      result.photo_url = url;
-      break;
+        result.type = 'photo';
+        result.photo_url = url;
+        break;
       default:
-      result.type = 'article';
-      result.url = url;
-      result.input_message_content = {message_text: url};
+        result.type = 'article';
+        result.url = url;
+        result.input_message_content = {
+          message_text: url
+        };
     }
     // Common properties
     result.id = fileName;
@@ -121,13 +137,41 @@ telegramAPI.answerQueryWithMedia = function(token, queryId, mediaURLs, callback)
     result.thumb_url = thumbnailUrl;
     return result;
   });
-  request.post(requestUrl, {form:{inline_query_id:queryId, cache_time:10, results: JSON.stringify(results)}}, function(err, res, body) {
+  request.post(requestUrl, {
+    form: {
+      inline_query_id: queryId,
+      cache_time: 10,
+      results: JSON.stringify(results)
+    }
+  }, function (err, res, body) {
     if (err) {
       return callback(err);
     } else if (res.statusCode == 200) {
       return callback(null, res, body);
     } else {
       return callback(new Error(body.error_code));
+    }
+  });
+};
+
+// available actions typing, upload_photo, upload_video, upload_audio, upload_document, find_location
+telegramAPI.sendChatAction = function (token, chatId, action, callback, opt) {
+  var requestUrl = config.TELEGRAM_BASE_URL + token + config.TELEGRAM_CHAT_ACTION;
+  var formData = {
+    chat_id: chatId,
+    action: action
+  };
+
+  request.post({
+    url: requestUrl,
+    formData: Object.assign(formData, opt)
+  }, function (err, res, body) {
+    if (err) {
+      return callback(err);
+    } else if (res.statusCode == 200) {
+      return callback(null, res, body);
+    } else {
+      return callback(new Error("Unable to post message. Code " + res.statusCode));
     }
   });
 };

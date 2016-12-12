@@ -15,6 +15,7 @@ config.TELEGRAM_POST_IMAGE = "/sendPhoto";
 config.TELEGRAM_POST_VIDEO = "/sendVideo";
 config.TELEGRAM_POST_DOCUMENT = "/sendDocument";
 config.TELEGRAM_ANSWER_QUERY = "/answerInlineQuery";
+config.TELEGRAM_CHAT_ACTION = '/sendChatAction';
 
 config.CHAN_BASE_URL = "http://a.4cdn.org/";
 config.CHAN_IMAGE_BASE_URL = "http://i.4cdn.org/";
