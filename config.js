@@ -8,7 +8,7 @@ config.START_MESSAGE = "Hi! this is 4bot, a telegram bot to serve random images 
 config.HELP_MESSAGE = "@botfourbot serves random images from 4chan image boards. In the commands list you can find all the available commands. Every command corresponds to a 4chan's board. By executing a command, the bot will post a random image from the correspondent board (try /mu ).\nYou can also interact with 4bot via inline queries: type the bot username in a chat and write a board's name (without the /, for example @botfourbot mu) to query that board for a list of possible contents to post. You can open the content before posting it by clicking on the thumbnail.\nEnjoy!";
 config.TIME_LIMIT = 2;
 
-config.TELEGRAM_BASE_URL = "https://149.154.167.197/bot";
+config.TELEGRAM_BASE_URL = "https://api.telegram.org/bot";
 config.TELEGRAM_SETUP_WEBHOOK = "/setWebhook?url=:url";
 config.TELEGRAM_POST_MESSAGE = "/sendMessage";
 config.TELEGRAM_POST_IMAGE = "/sendPhoto";
