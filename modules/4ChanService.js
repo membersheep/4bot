@@ -97,7 +97,7 @@ function extractRandomFileName(body) {
   }
 
     var rnd1 = Math.random();console.log(rnd1);
-    rnd1 = rnd1 * validPosts.length;console.log(rnd1);
+    rnd1 = rnd1 * validThreads.length;console.log(rnd1);
     rnd1 = Math.floor(rnd1);console.log(rnd1);    
   var threadIndex = Math.floor(rnd1);console.log(threadIndex);
   var randomThread = validThreads[threadIndex];
