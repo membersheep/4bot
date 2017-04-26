@@ -7,7 +7,7 @@ var boardsCache = new NodeCache({stdTTL: 60});
 
 chanService.getRandomImage = function(board, callback) {
   boardsCache.get(board, function(err, value) {
-    if (err || value === undefined) {
+    if (err || value === undefined || value.length == 0) {
       chanAPI.downloadJSONForBoard(board, function(err, body) {
         if (err) {
           return callback(err);
