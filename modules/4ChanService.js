@@ -97,10 +97,14 @@ function extractRandomFileName(body) {
   var posts = [];
   for (var i = 0; i < validThreads.length; i++) {
       var currentThread = validThreads[i];
+      console.log(currentThread.posts);
       var validPosts = currentThread.posts.filter(isValidPost);
       posts.concat(validPosts);
   }
-    console.log("Valid posts number: " + posts.length);
+  if (posts.length === 0) {
+    return undefined;
+  }
+  console.log("Valid posts number: " + posts.length);
   var rnd = Math.random();
   rnd = rnd * posts.length;
   rnd = Math.floor(rnd);
