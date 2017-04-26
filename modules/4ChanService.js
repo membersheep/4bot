@@ -95,10 +95,11 @@ function extractRandomFileName(body) {
   }
   console.log("Threads number: " + validThreads.length);
   var posts = [];
-  for (var i = 0; i < validThreads.length; i++) {
+  var threadsCound = validThreads.length;
+  for (var i = 0; i < threadsCount; i++) {
       var currentThread = validThreads[i];
-      console.log(currentThread.posts);
       var validPosts = currentThread.posts.filter(isValidPost);
+      console.log("Thread "+i+" has "+validPosts.length+" valid posts of "+currentThread.posts.length)
       posts.concat(validPosts);
   }
   if (posts.length === 0) {
