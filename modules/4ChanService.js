@@ -95,7 +95,7 @@ function extractRandomFileName(body) {
   }
   console.log("Threads number: " + validThreads.length);
   var posts = [];
-  var threadsCound = validThreads.length;
+  var threadsCount = validThreads.length;
   for (var i = 0; i < threadsCount; i++) {
       var currentThread = validThreads[i];
       var validPosts = currentThread.posts.filter(isValidPost);
