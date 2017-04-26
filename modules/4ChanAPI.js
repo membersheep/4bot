@@ -13,7 +13,7 @@ var chanInterface = {};
 
 chanInterface.downloadJSONForBoard = function(board, callback) {
   var baseRequestUrl = config.CHAN_BASE_URL + board + "/";
-  var indices = [0,1,2,3,4,5];
+  var indices = [1,2,3,4,5];
   var urls = indices.map(function(index) { return baseRequestUrl+index+".json"; });
   async.map(urls, fetch, function(err, results){
     if (err){
@@ -28,6 +28,7 @@ chanInterface.downloadJSONForBoard = function(board, callback) {
 };
 
 function fetch(url, callback) {
+    console.log("fetching "+url);
     request(url, requestOptions, function(err, response, body) {
         if (err) {
             callback(err);
