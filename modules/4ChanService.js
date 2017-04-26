@@ -89,17 +89,20 @@ function extractRandomFileName(body) {
   if (Object.prototype.toString.call(body.threads) !== '[object Array]') {
     return undefined;
   }
-
-  var validThreads = body.threads.filter(isValidThread);
-
+  console.log(body.threads.length);
+  var validThreads = body.threads.filter(isValidThread);console.log(validThreads.length);
+  
   if (validThreads.length === 0) {
     return undefined;
   }
 
-  var randomThread = validThreads[Math.floor(Math.random() * validThreads.length)];
-  var validPosts = randomThread.posts.filter(isValidPost);
+  var randomThread = validThreads[Math.floor(Math.random() * validThreads.length)];console.log(randomThread);
+  var validPosts = randomThread.posts.filter(isValidPost);console.log(validPosts);
+    var rnd = Math.random();console.log(rnd);
+    rnd = rnd * validPosts.length;console.log(rnd);
+    rnd = Math.floor(rnd);console.log(rnd);
   var randomPost = validPosts[Math.floor(Math.random()*validPosts.length)];
-  var fileName = randomPost.tim;
+  var fileName = randomPost.tim;console.log(fileName);
   var fileExtension = randomPost.ext;
   return fileName + fileExtension;
 }
