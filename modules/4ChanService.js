@@ -3,7 +3,7 @@ var config = require('../config');
 var NodeCache = require("node-cache");
 
 var chanService = {};
-var boardsCache = new NodeCache({stdTTL: 120});
+var boardsCache = new NodeCache({stdTTL: 60});
 
 chanService.getRandomImage = function(board, callback) {
   boardsCache.get(board, function(err, value) {
@@ -12,15 +12,14 @@ chanService.getRandomImage = function(board, callback) {
         if (err) {
           return callback(err);
         } else {
-          boardsCache.set(board, body);
-          var randomFileName = extractRandomFileName(body);
-          if (board == "/f") {
-            randomFileName = extractRandomFlashFileName(body);
-          }
-          if (randomFileName === undefined) {
+          var posts = extractPosts(body);
+          var post = posts.pop();
+          var fileName = post.tim + post.ext;
+          boardsCache.set(board, posts);
+          if (fileName === undefined) {
             return callback(new Error("Impossible to extract a file name from JSON."));
           }
-          chanAPI.downloadMedia(randomFileName, board, __dirname + "/../images", function(err, path){
+          chanAPI.downloadMedia(fileName, board, __dirname + "/../images", function(err, path){
             if (err) {
               return callback(err);
             } else {
@@ -31,14 +30,13 @@ chanService.getRandomImage = function(board, callback) {
     	});
     } else {
       if (value) {
-        var randomFileName = extractRandomFileName(value);
-        if (board == "/f") {
-          randomFileName = extractRandomFlashFileName(value);
-        }
-        if (randomFileName === undefined) {
+        var post = value.pop();
+        var fileName = post.tim + post.ext;
+        boardsCache.set(board, value);
+        if (fileName === undefined) {
           return callback(new Error("Impossible to extract a file name from JSON."));
         }
-        chanAPI.downloadMedia(randomFileName, board, __dirname + "/../images", function(err, path){
+        chanAPI.downloadMedia(fileName, board, __dirname + "/../images", function(err, path){
           if (err) {
             return callback(err);
           } else {
@@ -68,6 +66,27 @@ chanService.getRandomMediaURLsFromBoard = function(boardName, count, callback) {
 	});
 };
 
+function extractPosts(body) {
+  if (!body.hasOwnProperty('threads')) {
+    return undefined;
+  }
+  if (Object.prototype.toString.call(body.threads) !== '[object Array]') {
+    return undefined;
+  }
+  var validThreads = body.threads.filter(isValidThread);
+  if (validThreads.length === 0) {
+    return undefined;
+  }
+  var posts = [];
+  var threadsCount = validThreads.length;
+  for (var i = 0; i < threadsCount; i++) {
+      var currentThread = validThreads[i];
+      var validPosts = currentThread.posts.filter(isValidPost);
+      posts = posts.concat(validPosts);
+  }
+    return posts;
+}
+
 function extractRandomFileNames(body, count) {
   var filenames = [];
   for (var i = 0; i < count; i++) {
@@ -93,26 +112,21 @@ function extractRandomFileName(body) {
   if (validThreads.length === 0) {
     return undefined;
   }
-  console.log("Threads number: " + validThreads.length);
   var posts = [];
   var threadsCount = validThreads.length;
   for (var i = 0; i < threadsCount; i++) {
       var currentThread = validThreads[i];
       var validPosts = currentThread.posts.filter(isValidPost);
-      console.log("Thread "+i+" has "+validPosts.length+" valid posts of "+currentThread.posts.length)
       posts = posts.concat(validPosts);
   }
   if (posts.length === 0) {
     return undefined;
   }
-  console.log("Valid posts number: " + posts.length);
   var rnd = Math.random();
   rnd = rnd * posts.length;
   rnd = Math.floor(rnd);
-    console.log("Random index: " + rnd);
   var randomPost = posts[rnd];
   var fileName = randomPost.tim;
-    console.log(fileName);
   var fileExtension = randomPost.ext;
   return fileName + fileExtension;
 }
@@ -124,9 +138,7 @@ function extractRandomFlashFileName(body) {
   if (Object.prototype.toString.call(body.threads) !== '[object Array]') {
     return undefined;
   }
-
   var validThreads = body.threads.filter(isValidThread);
-
   if (validThreads.length === 0) {
     return undefined;
   }
