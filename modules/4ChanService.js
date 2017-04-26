@@ -100,7 +100,7 @@ function extractRandomFileName(body) {
       var currentThread = validThreads[i];
       var validPosts = currentThread.posts.filter(isValidPost);
       console.log("Thread "+i+" has "+validPosts.length+" valid posts of "+currentThread.posts.length)
-      posts.concat(validPosts);
+      posts = posts.concat(validPosts);
   }
   if (posts.length === 0) {
     return undefined;
