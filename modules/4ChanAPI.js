@@ -22,17 +22,17 @@ chanInterface.downloadJSONForBoard = function(board, callback) {
         var threads = results.reduce(function(accumulator, currentValue, currentIndex, array) {
             return accumulator.concat(currentValue.threads);
         }, []);
-        return {'threads': threads}
+        callback(null, {'threads': threads});
     }
   });
 };
 
-function fetch(url, cb) {
+function fetch(url, callback) {
     request(url, requestOptions, function(err, response, body) {
         if (err) {
-            cb(err);
+            callback(err);
         } else if (response.statusCode == 200) {
-            cb(null, body);
+            callback(null, body);
         } else {
             return callback(new Error("Unable to download JSON. Code " + response.statusCode));
         }
