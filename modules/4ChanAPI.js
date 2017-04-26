@@ -28,7 +28,6 @@ chanInterface.downloadJSONForBoard = function(board, callback) {
 };
 
 function fetch(url, callback) {
-    console.log("fetching "+url);
     request(url, requestOptions, function(err, response, body) {
         if (err) {
             callback(err);
