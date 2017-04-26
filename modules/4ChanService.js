@@ -89,24 +89,25 @@ function extractRandomFileName(body) {
   if (Object.prototype.toString.call(body.threads) !== '[object Array]') {
     return undefined;
   }
-  console.log(body.threads.length);
-  var validThreads = body.threads.filter(isValidThread);console.log(validThreads.length);
-  
+  var validThreads = body.threads.filter(isValidThread);
   if (validThreads.length === 0) {
     return undefined;
   }
-
-    var rnd1 = Math.random();console.log(rnd1);
-    rnd1 = rnd1 * validThreads.length;console.log(rnd1);
-    rnd1 = Math.floor(rnd1);console.log(rnd1);    
-  var threadIndex = Math.floor(rnd1);console.log(threadIndex);
-  var randomThread = validThreads[threadIndex];
-  var validPosts = randomThread.posts.filter(isValidPost);
-    var rnd = Math.random();console.log(rnd);
-    rnd = rnd * validPosts.length;console.log(rnd);
-    rnd = Math.floor(rnd);console.log(rnd);
-  var randomPost = validPosts[rnd];
-  var fileName = randomPost.tim;console.log(fileName);
+  console.log("Threads number: " + validThreads.length);
+  var posts = [];
+  for (var i = 0; i < validThreads.length; i++) {
+      var currentThread = validThreads[i];
+      var validPosts = currentThread.posts.filter(isValidPost);
+      posts.concat(validPosts);
+  }
+    console.log("Valid posts number: " + posts.length);
+  var rnd = Math.random();
+  rnd = rnd * posts.length;
+  rnd = Math.floor(rnd);
+    console.log("Random index: " + rnd);
+  var randomPost = posts[rnd];
+  var fileName = randomPost.tim;
+    console.log(fileName);
   var fileExtension = randomPost.ext;
   return fileName + fileExtension;
 }
