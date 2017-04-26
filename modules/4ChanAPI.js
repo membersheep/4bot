@@ -28,13 +28,13 @@ chanInterface.downloadJSONForBoard = function(board, callback) {
 };
 
 function fetch(url, cb) {
-    request(file, requestOptions, function(err, response, body) {
+    request(url, requestOptions, function(err, response, body) {
         if (err) {
             cb(err);
         } else if (response.statusCode == 200) {
             cb(null, body);
         } else {
-            return callback(new Error("Unable to download JSON. Code " + res.statusCode));
+            return callback(new Error("Unable to download JSON. Code " + response.statusCode));
         }
     });
 }
