@@ -54,14 +54,15 @@ chanService.getRandomMediaURLsFromBoard = function(boardName, count, callback) {
     if (err) {
       return callback(err);
     } else {
-      var randomFileNames = extractRandomFileNames(body, count);
-      if (randomFileNames === undefined) {
-        return callback(new Error("Impossible to extract a file name from JSON."));
+      var posts = extractPosts(body);
+      if (posts.length > count) {
+          posts = posts.slice(0, count);
       }
-      var randomURLs = randomFileNames.map(function(filename){
+      var fileNames = posts.map(function(post){ return post.tim + post.ext; })
+      var urls = fileNames.map(function(filename){
         return config.CHAN_IMAGE_BASE_URL + boardName + '/' + filename;
       });
-      return callback(null, randomURLs);
+      return callback(null, urls);
     }
 	});
 };
@@ -84,7 +85,7 @@ function extractPosts(body) {
       var validPosts = currentThread.posts.filter(isValidPost);
       posts = posts.concat(validPosts);
   }
-    return posts;
+  return posts;
 }
 
 function extractRandomFileNames(body, count) {
@@ -127,26 +128,6 @@ function extractRandomFileName(body) {
   rnd = Math.floor(rnd);
   var randomPost = posts[rnd];
   var fileName = randomPost.tim;
-  var fileExtension = randomPost.ext;
-  return fileName + fileExtension;
-}
-
-function extractRandomFlashFileName(body) {
-  if (!body.hasOwnProperty('threads')) {
-    return undefined;
-  }
-  if (Object.prototype.toString.call(body.threads) !== '[object Array]') {
-    return undefined;
-  }
-  var validThreads = body.threads.filter(isValidThread);
-  if (validThreads.length === 0) {
-    return undefined;
-  }
-
-  var randomThread = validThreads[Math.floor(Math.random() * validThreads.length)];
-  var validPosts = randomThread.posts.filter(isValidPost);
-  var randomPost = validPosts[Math.floor(Math.random()*validPosts.length)];
-  var fileName = randomPost.filename;
   var fileExtension = randomPost.ext;
   return fileName + fileExtension;
 }
