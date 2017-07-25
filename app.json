@@ -10,11 +10,6 @@
     "TELEGRAM_USERNAME": {
       "description": "The username of your bot.",
       "value": "your-bot-username"
-    },
-    "BOTAN_TOKEN": {
-      "description": "A secret tokene released by the BotanioBot if you want to track your bot's data.",
-      "value": "insert-your-botan-token-here",
-      "required": false
     }
   },
   "success_url": "/status",
